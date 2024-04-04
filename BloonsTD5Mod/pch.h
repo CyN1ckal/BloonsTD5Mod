@@ -18,5 +18,6 @@
 #include "Reclass.h"
 #include "System.h"
 #include "MyWindow.h"
+#include "Console.h"
 
 #endif //PCH_H

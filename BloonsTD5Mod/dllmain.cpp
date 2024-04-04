@@ -6,8 +6,12 @@ HMODULE g_hModule = 0;
 
 DWORD WINAPI StartingThread(LPVOID lpReserved)
 {
+    MyConsole Console;
+
+    Console.AllocateConsole();
+
     MyWindowClass MyWindow;
-    
+
     MyWindow.RegisterMyWindow();
 
     MyWindow.CreateMyWindow();
@@ -18,17 +22,21 @@ DWORD WINAPI StartingThread(LPVOID lpReserved)
 
     System Main;
 
-    Main.AllocateConsole();
-
     if (!Main.GetBloonsInfo())
     {
         printf("Something went wrong getting BTD5 info!\n");
         return 1;
     }
 
-    Main.MainLoop();
+    while (!GetAsyncKeyState(VK_END))
+    {
+      Main.MainLoop();
+    }
 
-    // Execution will technically never get here.
+    Console.EjectConsole();
+
+    FreeLibraryAndExitThread(g_hModule, 0);
+
     return 1;
 }
 

@@ -4,15 +4,6 @@
 extern HMODULE g_hModule;
 
 // Function Definitions
-bool System::AllocateConsole()
-{
-    AllocConsole();
-    freopen_s(&f, "CONOUT$", "w", stdout);
-    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    printf("Console Allocated.\n");
-    return 1;
-}
-
 bool System::GetBloonsInfo()
 {
     BloonsBaseAddress = (uintptr_t)GetModuleHandle(NULL);
@@ -35,10 +26,6 @@ bool System::GetBloonsInfo()
 
 bool System::Keybinds()
 {
-    if (GetAsyncKeyState(VK_END) & 1)
-    {
-        Eject();
-    }
     if (GetAsyncKeyState(VK_INSERT) & 1)
     {
         AddMoney(1000);
@@ -47,15 +34,6 @@ bool System::Keybinds()
     {
         AddLives(25);
     }
-    return 1;
-}
-
-bool System::Eject()
-{
-    printf("Ejecting.\n");
-    fclose(f);
-    FreeConsole();
-    FreeLibraryAndExitThread(g_hModule, 0);
     return 1;
 }
 
@@ -75,12 +53,8 @@ bool System::AddLives(int amount)
 
 bool System::MainLoop()
 {
-    while (true)
-    {
-        Keybinds();
-        Sleep(250);
-    }
-    // Execution will technically never get here.
+    Keybinds();
+
     return 1;
 }
 

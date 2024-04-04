@@ -10,19 +10,13 @@ public:
 
     uintptr_t BloonsBaseAddress;
     uintptr_t MonkeyMoneyAddress;
-    HANDLE hConsole;
-    FILE* f;
     MasterObjectList* MasterList = nullptr;
     CoreObjectList* CoreList = nullptr;
     MonkeyInfo* CurrentMonkeyInfo = nullptr;
 
-    bool AllocateConsole();
-
     bool GetBloonsInfo();
 
     bool Keybinds();
-
-    bool Eject();
 
     bool AddMoney(double amount);
 

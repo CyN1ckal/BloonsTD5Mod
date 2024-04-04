@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Console.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="MyWindow.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="System.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="MyWindow.cpp" />
