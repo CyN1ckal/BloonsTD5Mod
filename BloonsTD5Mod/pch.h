@@ -16,5 +16,7 @@
 // My Headers
 #include "Memory.h"
 #include "Reclass.h"
+#include "System.h"
+#include "MyWindow.h"
 
 #endif //PCH_H
