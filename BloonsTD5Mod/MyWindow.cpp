@@ -26,53 +26,34 @@ LRESULT CALLBACK MyWindowProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lp
 	}
 }
 
+LRESULT CALLBACK DLLWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+
 bool MyWindowClass::RegisterMyWindow()
 {
-	m_applicationName = L"Test Name";
-
-	m_hInstance = GetModuleHandle(NULL);
-	WNDCLASSEX wc = { 0 }; 
-	wc.style = CS_HREDRAW | CS_VREDRAW;
-	wc.lpfnWndProc = MyWindowProc;
+	WNDCLASSEX wc;
 	wc.hInstance = m_hInstance;
-	wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
-	wc.hIconSm = wc.hIcon;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-	wc.lpszMenuName = NULL;
-	wc.lpszClassName = m_applicationName;
+	wc.lpszClassName = (LPCWSTR)L"InjectedDLLWindowClass";
+	wc.lpszClassName = (LPCWSTR)L"MyClassName";
+	wc.lpfnWndProc = DLLWindowProc;
+	wc.style = CS_DBLCLKS;
 	wc.cbSize = sizeof(WNDCLASSEX);
+	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.lpszMenuName = NULL;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hbrBackground = (HBRUSH)COLOR_BACKGROUND;
 	if (!RegisterClassEx(&wc))
-		printf("Error Registering Window Class!\n");
+		return 0;
 
 	return 1;
 }
 
 bool MyWindowClass::CreateMyWindow()
 {
-	screenWidth = GetSystemMetrics(SM_CXSCREEN);
-	screenHeight = GetSystemMetrics(SM_CYSCREEN);
-	printf("Screent Width: %d\nScreen Height: %d\n", screenWidth, screenHeight);
-
-	posX = screenWidth / 2;
-	posY = screenHeight / 2;
-	printf("posX: %d\nposY: %d\n", posX, posY);
-
-	m_hWnd = CreateWindowEx(WS_EX_LAYERED, m_applicationName, m_applicationName,
-		WS_BORDER,
-		posX, posY, screenWidth, screenHeight, NULL, NULL, m_hInstance, NULL);
-	
-	if (!m_hWnd)
-	{
-		printf("Error!\n");
-		printf("%d", m_hWnd);
-		printf("Last Error Code: %lu\n", GetLastError());
-	}
-
-	// Bring the window up on the screen and set it as main focus.
-	ShowWindow(m_hWnd, SW_SHOW);
-	SetForegroundWindow(m_hWnd);
-	SetFocus(m_hWnd);
+	HWND hwnd = CreateWindowEx(0, L"MyClassName", L"Window Title", WS_EX_PALETTEWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 400, 300, NULL, NULL, m_hInstance, NULL);
+	ShowWindow(hwnd, SW_SHOWNORMAL);
 
 	return 1;
 }
@@ -84,5 +65,16 @@ bool MyWindowClass::InitDirectX()
 
 bool MyWindowClass::InitImGUI() 
 {
+	return 1;
+}
+
+bool MyWindowClass::MainLoop()
+{
+	MSG messages;
+	if (GetMessage(&messages, NULL, 0, 0))
+	{
+		TranslateMessage(&messages);
+		DispatchMessage(&messages);
+	}
 	return 1;
 }

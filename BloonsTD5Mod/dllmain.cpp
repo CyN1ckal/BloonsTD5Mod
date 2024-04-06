@@ -16,10 +16,6 @@ DWORD WINAPI StartingThread(LPVOID lpReserved)
 
     MyWindow.CreateMyWindow();
 
-    MyWindow.InitDirectX();
-
-    MyWindow.InitImGUI();
-
     System Main;
 
     if (!Main.GetBloonsInfo())
@@ -30,7 +26,9 @@ DWORD WINAPI StartingThread(LPVOID lpReserved)
 
     while (!GetAsyncKeyState(VK_END))
     {
-      Main.MainLoop();
+        MyWindow.MainLoop();
+
+        Main.MainLoop();
     }
 
     Console.EjectConsole();
@@ -38,6 +36,29 @@ DWORD WINAPI StartingThread(LPVOID lpReserved)
     FreeLibraryAndExitThread(g_hModule, 0);
 
     return 1;
+}
+
+
+
+
+//Our new windows proc
+LRESULT CALLBACK DLLWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message)
+    {
+    case WM_COMMAND:
+        switch (wParam)
+        {
+
+        }
+        break;
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        break;
+    default:
+        return DefWindowProc(hwnd, message, wParam, lParam);
+    }
+    return 0;
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
