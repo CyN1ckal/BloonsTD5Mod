@@ -6,7 +6,9 @@ void MyMenu::MainMenu()
 {
 	bool InGame = Main.MasterList->PtrToCoreObjectList->PtrToMonkeyInfo != nullptr;
 
-	ImGui::Begin("Main Menu",NULL, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize;
+
+	ImGui::Begin("Main Menu",NULL, window_flags);
 
 	ImGui::SeparatorText("Bloons Tower Defense 5 Mod");
 

@@ -52,7 +52,7 @@ bool MyWindowClass::RegisterMyWindow()
 
 bool MyWindowClass::CreateMyWindow()
 {
-	m_hWnd = CreateWindowEx(0, L"MyClassName", L"Window Title", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1000, 600, NULL, NULL, m_hInstance, NULL);
+	m_hWnd = CreateWindowEx(0, L"MyClassName", L"BTD5 Mod", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1000, 600, NULL, NULL, m_hInstance, NULL);
 	ShowWindow(m_hWnd, SW_SHOWNORMAL);
 
 	return 1;
