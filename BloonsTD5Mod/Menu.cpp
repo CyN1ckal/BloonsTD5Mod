@@ -11,7 +11,10 @@ void MyMenu::MainMenu()
 	ImGui::SeparatorText("Bloons Tower Defense 5 Mod");
 
 	if (InGame)
+	{
 		ImGui::Text("Current Status: In Game!");
+		ImGui::Text("Current Round: %u", Main.MasterList->PtrToCoreObjectList->PtrToMonkeyInfo->Round);
+	}
 	else
 	{
 		ImGui::Text("Current Status: In Menu.");
