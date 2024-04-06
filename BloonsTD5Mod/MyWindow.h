@@ -9,7 +9,9 @@ public:
 	bool InitDirectX();
 	bool CleanDirectX();
 	bool InitImGUI();
+	bool CleanImGUI();
 	bool Frame();
+	bool CheckForResize();
 
 	LPCWSTR m_applicationName;
 	HINSTANCE m_hInstance;

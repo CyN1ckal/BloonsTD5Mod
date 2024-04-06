@@ -18,6 +18,10 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3d10.lib")
 
+#include "imgui.h"
+#include "imgui_impl_dx11.h"
+#include "imgui_impl_win32.h"
+
 // My Headers
 #include "Memory.h"
 #include "Reclass.h"

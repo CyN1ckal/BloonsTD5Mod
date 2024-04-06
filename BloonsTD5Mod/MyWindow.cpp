@@ -52,7 +52,7 @@ bool MyWindowClass::RegisterMyWindow()
 
 bool MyWindowClass::CreateMyWindow()
 {
-	m_hWnd = CreateWindowEx(0, L"MyClassName", L"Window Title", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 400, 300, NULL, NULL, m_hInstance, NULL);
+	m_hWnd = CreateWindowEx(0, L"MyClassName", L"Window Title", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1000, 600, NULL, NULL, m_hInstance, NULL);
 	ShowWindow(m_hWnd, SW_SHOWNORMAL);
 
 	return 1;
@@ -120,29 +120,91 @@ bool MyWindowClass::CleanDirectX()
 	backbuffer->Release();
 	dev->Release();
 	devcon->Release();
+	return 1;
 }
 
 bool MyWindowClass::InitImGUI() 
 {
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplWin32_Init(m_hWnd);
+	ImGui_ImplDX11_Init(dev, devcon);
+
+	return 1;
+}
+bool MyWindowClass::CleanImGUI()
+{
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
+
 	return 1;
 }
 
+extern UINT g_ResizeWidth, g_ResizeHeight;
 bool MyWindowClass::Frame()
 {
-	// clear the back buffer to a deep blue
-	float color[4] = { 0.0f,0.2f,0.4f,1.0f };
-	devcon->ClearRenderTargetView(backbuffer, color);
-
-	// do 3D rendering on the back buffer here
-	// 
-	// switch the back buffer and the front buffer
-	swapchain->Present(0, 0);
-
 	MSG messages;
 	if (GetMessage(&messages, NULL, 0, 0))
 	{
 		TranslateMessage(&messages);
 		DispatchMessage(&messages);
 	}
+
+	CheckForResize();
+
+
+	// (Your code process and dispatch Win32 messages)
+	// Start the Dear ImGui frame
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+
+	ImGui::NewFrame();
+	
+	ImGui::ShowDemoWindow(); // Show demo window! :)
+
+	ImGui::Render();
+
+	
+	// clear the back buffer to a deep blue
+	float color[4] = { 0.0f,0.2f,0.4f,1.0f };
+	devcon->OMSetRenderTargets(1, &backbuffer, nullptr);
+	devcon->ClearRenderTargetView(backbuffer, color);
+
+	// Rendering
+	// (Your code clears your framebuffer, renders your other stuff etc.)
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	// (Your code calls swapchain's Present() function)
+
+	swapchain->Present(0, 0);
+
+	return 1;
+}
+
+bool MyWindowClass::CheckForResize()
+{
+	// Handle window resize (we don't resize directly in the WM_SIZE handler)
+	if (g_ResizeWidth != 0 && g_ResizeHeight != 0)
+	{
+		if (backbuffer) { backbuffer->Release(); backbuffer = nullptr; }
+
+		swapchain->ResizeBuffers(0, g_ResizeWidth, g_ResizeHeight, DXGI_FORMAT_UNKNOWN, 0);
+		g_ResizeWidth = g_ResizeHeight = 0;
+
+		// get the address of the back buffer
+		ID3D11Texture2D* pBackBuffer;
+		swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+
+		// use the back buffer address to create the render target
+		dev->CreateRenderTargetView(pBackBuffer, NULL, &backbuffer);
+		pBackBuffer->Release();
+	}
+
 	return 1;
 }

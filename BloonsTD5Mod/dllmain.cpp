@@ -3,6 +3,7 @@
 
 // Global Variables
 HMODULE g_hModule = 0;
+UINT g_ResizeWidth = 0, g_ResizeHeight = 0;
 
 DWORD WINAPI StartingThread(LPVOID lpReserved)
 {
@@ -17,6 +18,8 @@ DWORD WINAPI StartingThread(LPVOID lpReserved)
     MyWindow.CreateMyWindow();
 
     MyWindow.InitDirectX();
+
+    MyWindow.InitImGUI();
 
     System Main;
 
@@ -35,6 +38,10 @@ DWORD WINAPI StartingThread(LPVOID lpReserved)
 
     Console.EjectConsole();
 
+    MyWindow.CleanDirectX();
+
+    MyWindow.CleanImGUI();
+
     FreeLibraryAndExitThread(g_hModule, 0);
 
     return 1;
@@ -42,10 +49,21 @@ DWORD WINAPI StartingThread(LPVOID lpReserved)
 
 
 //Our new windows proc
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK DLLWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if (ImGui_ImplWin32_WndProcHandler(hwnd, message, wParam, lParam))
+        return true;
+
     switch (message)
     {
+    case WM_SIZE:
+        if (wParam == SIZE_MINIMIZED)
+            return 0;
+        g_ResizeWidth = (UINT)LOWORD(lParam); // Queue resize
+        g_ResizeHeight = (UINT)HIWORD(lParam);
+        return 0;
     case WM_COMMAND:
         switch (wParam)
         {
