@@ -13,6 +13,10 @@
 #include <iostream>
 #include <vector>
 #include <thread>
+#include <d3d11.h>
+#include <d3d10.h>
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "d3d10.lib")
 
 // My Headers
 #include "Memory.h"

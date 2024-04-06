@@ -16,6 +16,8 @@ DWORD WINAPI StartingThread(LPVOID lpReserved)
 
     MyWindow.CreateMyWindow();
 
+    MyWindow.InitDirectX();
+
     System Main;
 
     if (!Main.GetBloonsInfo())
@@ -26,7 +28,7 @@ DWORD WINAPI StartingThread(LPVOID lpReserved)
 
     while (!GetAsyncKeyState(VK_END))
     {
-        MyWindow.MainLoop();
+        MyWindow.Frame();
 
         Main.MainLoop();
     }
@@ -37,8 +39,6 @@ DWORD WINAPI StartingThread(LPVOID lpReserved)
 
     return 1;
 }
-
-
 
 
 //Our new windows proc
