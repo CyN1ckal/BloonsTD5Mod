@@ -14,6 +14,10 @@ public:
     CoreObjectList* CoreList = nullptr;
     MonkeyInfo* CurrentMonkeyInfo = nullptr;
 
+    int DesiredXP = 100000;
+    int DesiredRank = 50;
+    int DesiredMonkeyMoney = 1000;
+
     bool GetBloonsInfo();
 
     bool Keybinds();

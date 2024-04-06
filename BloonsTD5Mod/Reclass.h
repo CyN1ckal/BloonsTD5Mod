@@ -23,8 +23,9 @@ public:
 	int32_t Lives; //0x0088
 	char pad_008C[4]; //0x008C
 	double MonkeyMoney; //0x0090
-	char pad_0098[112]; //0x0098
-}; //Size: 0x0108
+	int32_t Round; //0x0098
+	char pad_009C[364]; //0x009C
+}; //Size: 0x0208
 
 class MasterObjectList
 {
@@ -46,5 +47,7 @@ public:
 	int32_t Rank; //0x0020
 	char pad_0024[4]; //0x0024
 	double XP; //0x0028
-	char pad_0030[152]; //0x0030
-}; //Size: 0x00C8
+	char pad_0030[248]; //0x0030
+	uint32_t MonkeyMoney; //0x0128
+	char pad_012C[156]; //0x012C
+}; //Size: 0x01C8

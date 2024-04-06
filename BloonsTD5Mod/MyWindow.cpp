@@ -138,6 +138,7 @@ bool MyWindowClass::InitImGUI()
 
 	return 1;
 }
+
 bool MyWindowClass::CleanImGUI()
 {
 	ImGui_ImplDX11_Shutdown();
@@ -148,44 +149,6 @@ bool MyWindowClass::CleanImGUI()
 }
 
 extern UINT g_ResizeWidth, g_ResizeHeight;
-bool MyWindowClass::Frame()
-{
-	MSG messages;
-	if (GetMessage(&messages, NULL, 0, 0))
-	{
-		TranslateMessage(&messages);
-		DispatchMessage(&messages);
-	}
-
-	CheckForResize();
-
-
-	// (Your code process and dispatch Win32 messages)
-	// Start the Dear ImGui frame
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-
-	ImGui::NewFrame();
-	
-	ImGui::ShowDemoWindow(); // Show demo window! :)
-
-	ImGui::Render();
-
-	
-	// clear the back buffer to a deep blue
-	float color[4] = { 0.0f,0.2f,0.4f,1.0f };
-	devcon->OMSetRenderTargets(1, &backbuffer, nullptr);
-	devcon->ClearRenderTargetView(backbuffer, color);
-
-	// Rendering
-	// (Your code clears your framebuffer, renders your other stuff etc.)
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-	// (Your code calls swapchain's Present() function)
-
-	swapchain->Present(0, 0);
-
-	return 1;
-}
 
 bool MyWindowClass::CheckForResize()
 {
@@ -205,6 +168,47 @@ bool MyWindowClass::CheckForResize()
 		dev->CreateRenderTargetView(pBackBuffer, NULL, &backbuffer);
 		pBackBuffer->Release();
 	}
+
+	return 1;
+}
+
+bool MyWindowClass::Frame()
+{
+	MyMenu Menu;
+
+	MSG messages;
+	if (GetMessage(&messages, NULL, 0, 0))
+	{
+		TranslateMessage(&messages);
+		DispatchMessage(&messages);
+	}
+
+	CheckForResize();
+
+	// (Your code process and dispatch Win32 messages)
+	// Start the Dear ImGui frame
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+
+	ImGui::NewFrame();
+	
+	ImGui::ShowDemoWindow(); // Show demo window! :)
+
+	Menu.MainMenu();
+
+	ImGui::Render();
+
+	// clear the back buffer to a deep blue
+	float color[4] = { 0.0f,0.2f,0.4f,1.0f };
+	devcon->OMSetRenderTargets(1, &backbuffer, nullptr);
+	devcon->ClearRenderTargetView(backbuffer, color);
+
+	// Rendering
+	// (Your code clears your framebuffer, renders your other stuff etc.)
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	// (Your code calls swapchain's Present() function)
+
+	swapchain->Present(1, 0);
 
 	return 1;
 }

@@ -28,5 +28,6 @@
 #include "System.h"
 #include "MyWindow.h"
 #include "Console.h"
+#include "Menu.h"
 
 #endif //PCH_H

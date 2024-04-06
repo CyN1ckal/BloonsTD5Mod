@@ -5,23 +5,25 @@
 HMODULE g_hModule = 0;
 UINT g_ResizeWidth = 0, g_ResizeHeight = 0;
 
+MyConsole Console;
+MyWindowClass MyWindow;
+System Main;
+MyMenu Menu;
+
 DWORD WINAPI StartingThread(LPVOID lpReserved)
 {
-    MyConsole Console;
 
     Console.AllocateConsole();
-
-    MyWindowClass MyWindow;
 
     MyWindow.RegisterMyWindow();
 
     MyWindow.CreateMyWindow();
 
+    UINT_PTR timer = SetTimer(MyWindow.m_hWnd, NULL, 1000, NULL);
+
     MyWindow.InitDirectX();
 
     MyWindow.InitImGUI();
-
-    System Main;
 
     if (!Main.GetBloonsInfo())
     {
@@ -41,6 +43,8 @@ DWORD WINAPI StartingThread(LPVOID lpReserved)
     MyWindow.CleanDirectX();
 
     MyWindow.CleanImGUI();
+
+    KillTimer(MyWindow.m_hWnd, timer);
 
     FreeLibraryAndExitThread(g_hModule, 0);
 
@@ -72,6 +76,9 @@ LRESULT CALLBACK DLLWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
+        break;
+    case WM_TIMER:
+        UpdateWindow(MyWindow.m_hWnd);
         break;
     default:
         return DefWindowProc(hwnd, message, wParam, lParam);
