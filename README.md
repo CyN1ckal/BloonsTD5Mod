@@ -4,4 +4,4 @@ This tool allows for several modifications to the normal Bloons Tower Defenes 5 
 Compile the project as an x86 DLL and inject it into BTD5-Win.exe process with an injector of your choice.
 Or if you are too lazy to compile yourself, download the latest release. No guarantee it is actually the latest. 
 
-![BTD5Mod](https://github.com/CyN1ckal/BloonsTD5Mod/assets/29387530/55f63699-4950-40ca-bf61-f7710a58a301)
+![Capture](https://github.com/CyN1ckal/BloonsTD5Mod/assets/29387530/5e4ef887-9708-4341-b973-94650ca7786b)
