@@ -5,3 +5,12 @@ Compile the project as an x86 DLL and inject it into BTD5-Win.exe process with a
 Or if you are too lazy to compile yourself, download the latest release. No guarantee it is actually the latest. 
 
 ![Capture](https://github.com/CyN1ckal/BloonsTD5Mod/assets/29387530/5e4ef887-9708-4341-b973-94650ca7786b)
+
+## Full Feature List
++ Add Money
++ Add Lives
++ Set Experience
++ Set Rank
++ Set Monkey Money
++ Set Tokens
++ Infinite Special Agents
