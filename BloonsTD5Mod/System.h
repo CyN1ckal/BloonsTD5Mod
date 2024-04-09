@@ -6,8 +6,8 @@ class System
 {
 public:
 
-    uintptr_t MasterObjectListOffset = 0x009FABE0;
-    uintptr_t UpdateSpecialAgentOffset = 0x00343B87;
+    uintptr_t MasterObjectListOffset = 0x009FBDC0;
+    uintptr_t UpdateSpecialAgentOffset = 0x3439E7;
 
     uintptr_t BloonsBaseAddress;
     uintptr_t MonkeyMoneyAddress;
