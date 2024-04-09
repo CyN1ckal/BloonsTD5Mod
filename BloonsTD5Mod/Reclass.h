@@ -1,6 +1,5 @@
 #pragma once
 #include "pch.h"
-
 // Created with ReClass.NET 1.2 by KN4CK3R
 
 class CoreObjectList
@@ -49,5 +48,13 @@ public:
 	double XP; //0x0028
 	char pad_0030[248]; //0x0030
 	uint32_t MonkeyMoney; //0x0128
-	char pad_012C[156]; //0x012C
+	char pad_012C[4]; //0x012C
+	uint32_t MonkeyTokens; //0x0130
+	char pad_0134[148]; //0x0134
 }; //Size: 0x01C8
+
+class AbilitiesClass
+{
+public:
+	char pad_0000[1344]; //0x0000
+}; //Size: 0x0540

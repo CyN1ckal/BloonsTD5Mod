@@ -6,15 +6,20 @@ void MyMenu::MainMenu()
 {
 	bool InGame = Main.MasterList->PtrToCoreObjectList->PtrToMonkeyInfo != nullptr;
 
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize;
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar;
+
+	ImGuiStyle& style = ImGui::GetStyle();
+	style.FrameRounding = 4;
+	style.FrameBorderSize = 1;
+
 
 	ImGui::Begin("Main Menu",NULL, window_flags);
 
-	ImGui::SeparatorText("Bloons Tower Defense 5 Mod");
-
 	if (InGame)
 	{
-		ImGui::Text("Current Status: In Game!");
+		ImGui::Text("Current Status:"); 
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "In Game!");
 		ImGui::Text("Current Round: %u", Main.MasterList->PtrToCoreObjectList->PtrToMonkeyInfo->Round);
 	}
 	else
@@ -26,35 +31,86 @@ void MyMenu::MainMenu()
 
 	if (InGame)
 	{
-		ImGui::Text("Current Money: %f", Main.MasterList->PtrToCoreObjectList->PtrToMonkeyInfo->MonkeyMoney);
-		ImGui::SameLine();
+		//ImGui::Text("Current Money: %f", Main.MasterList->PtrToCoreObjectList->PtrToMonkeyInfo->MonkeyMoney);
+		//ImGui::SameLine();
+		//if (ImGui::Button("Add Money"))
+		//	Main.AddMoney(1000);
+		//ImGui::Text("Current Lives: %u", Main.MasterList->PtrToCoreObjectList->PtrToMonkeyInfo->Lives);
+		//ImGui::SameLine();
+		//if (ImGui::Button("Add Lives"))
+		//	Main.AddLives(25);
+
 		if (ImGui::Button("Add Money"))
-			Main.AddMoney(1000);
-		ImGui::Text("Current Lives: %u", Main.MasterList->PtrToCoreObjectList->PtrToMonkeyInfo->Lives);
+			Main.AddMoney(Main.AddMoneyAmount);
 		ImGui::SameLine();
+		ImGui::PushItemWidth(-FLT_MIN);
+		ImGui::InputDouble("Money Amount", &Main.AddMoneyAmount,100,1000);
+		ImGui::PopItemWidth();
+
 		if (ImGui::Button("Add Lives"))
-			Main.AddLives(25);
+			Main.AddLives(Main.AddLivesAmount);
+		ImGui::SameLine();
+		ImGui::PushItemWidth(-FLT_MIN);
+		ImGui::InputInt("Lives Amount", &Main.AddLivesAmount);
+		ImGui::PopItemWidth();
+
 
 	}
 
-	ImGui::InputInt("Experience Amount", &Main.DesiredXP);
 	if (ImGui::Button("Set Experience"))
 	{
 		Main.MasterList->PtrToCoreObjectList->PtrToMonkeyStats->XP = Main.DesiredXP;
 	}
+	ImGui::SameLine();
+	ImGui::PushItemWidth(-FLT_MIN);
+	ImGui::InputInt("Experience Amount", &Main.DesiredXP);
+	ImGui::PopItemWidth();
 
-	ImGui::InputInt("Rank Amount", &Main.DesiredRank);
 	if (ImGui::Button("Set Rank"))
 	{
 		Main.MasterList->PtrToCoreObjectList->PtrToMonkeyStats->Rank = Main.DesiredRank;
 	}
+	ImGui::SameLine();
+	ImGui::PushItemWidth(-FLT_MIN);
+	ImGui::InputInt("Rank Amount", &Main.DesiredRank);
+	ImGui::PopItemWidth();
 
-	ImGui::InputInt("Monkey Money Amount", &Main.DesiredMonkeyMoney);
 	if (ImGui::Button("Set Monkey Money"))
 	{
 		Main.MasterList->PtrToCoreObjectList->PtrToMonkeyStats->MonkeyMoney = Main.DesiredMonkeyMoney;
 	}
+	ImGui::SameLine();
+	ImGui::PushItemWidth(-FLT_MIN);
+	ImGui::InputInt("Monkey Money Amount", &Main.DesiredMonkeyMoney);
+	ImGui::PopItemWidth();
 
+	if (ImGui::Button("Set Tokens"))
+	{
+		Main.MasterList->PtrToCoreObjectList->PtrToMonkeyStats->MonkeyTokens = Main.DesiredTokens;
+	}
+	ImGui::SameLine();
+	ImGui::PushItemWidth(-FLT_MIN);
+	ImGui::InputInt("Token Amount", &Main.DesiredTokens);
+	ImGui::PopItemWidth();
+
+	ImGui::Checkbox("Infinite Special Agents", &Main.InfiniteSpecialAgents);
+
+	ImGui::End();
+}
+
+void MyMenu::DebugMenu()
+{
+	ImGui::Begin("Debug Menu");
+
+	if (ImGui::Button("Toggle On"))
+	{
+		Main.ToggleInfiniteSpecialAgents(1);
+	}
+
+	if (ImGui::Button("Toggle Off"))
+	{
+		Main.ToggleInfiniteSpecialAgents(0);
+	}
 
 	ImGui::End();
 }

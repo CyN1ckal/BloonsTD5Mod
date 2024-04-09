@@ -5,4 +5,5 @@ class MyMenu
 {
 public:
 	void MainMenu();
+	void DebugMenu();
 };

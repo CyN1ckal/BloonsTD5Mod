@@ -46,6 +46,8 @@ DWORD WINAPI StartingThread(LPVOID lpReserved)
 
     KillTimer(MyWindow.m_hWnd, timer);
 
+    PostQuitMessage(0);
+
     FreeLibraryAndExitThread(g_hModule, 0);
 
     return 1;
