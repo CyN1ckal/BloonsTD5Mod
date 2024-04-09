@@ -6,6 +6,8 @@ Or if you are too lazy to compile yourself, download the latest release. No guar
 
 ![Capture](https://github.com/CyN1ckal/BloonsTD5Mod/assets/29387530/5e4ef887-9708-4341-b973-94650ca7786b)
 
+Showcase Video: https://youtu.be/-UMOh3HmZMI?si=brblOeYSKnPxKbZx
+
 ## Full Feature List
 + Add Money
 + Add Lives
